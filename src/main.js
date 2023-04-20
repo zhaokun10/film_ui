@@ -2,9 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-Vue.config.productionTip = false
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import axios from '../src/request'
+Vue.prototype.$axios = axios;
+Vue.use(ElementUI)
 new Vue({
   router,
   store,
