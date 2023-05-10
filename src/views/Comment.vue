@@ -34,7 +34,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeUserById(scope.row.id)"
+                @click="removeUserById(scope.row.commentId)"
             ></el-button>
           </template>
         </el-table-column>
@@ -134,9 +134,9 @@ export default {
         return this.$message.info('已取消删除')
       }
       // 发送删除请求
-      this.$axios.post("/delete", id).then(ref=>{
+      this.$axios.post("/comment/delete?id="+id).then(ref=>{
         this.$message.success('删除成功')
-        this.getUserList()
+        this.getCommentList()
       })
     }
   }
