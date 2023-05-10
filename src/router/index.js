@@ -11,12 +11,17 @@ import SearchResultView from "@/views/SearchResultView.vue";
 import FilmInfoView from "@/views/FilmInfoView.vue";
 import AllCommentView from "@/views/AllCommentView.vue";
 import MyProfileView from "@/views/MyProfileView.vue";
+import Index from "@/views/Index.vue";
+import UserManage from "@/views/UserManage.vue";
+import GoodsManage from "@/views/GoodsManage.vue";
+import UserInfo from "@/views/UserInfo.vue";
+import Comment from "@/views/Comment.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
     {
-        path: '/',
+        path: '/login',
         name: 'login',
         component: LoginView
     },
@@ -26,7 +31,7 @@ const routes = [
         component: RegisterView
     },
     {
-        path: '/index',
+        path: '/',
         component: IndexView,
         children: [
             {
@@ -67,6 +72,28 @@ const routes = [
                 path: 'myProfile',
                 name: 'myProfile',
                 component: MyProfileView
+            }
+        ]
+    },
+    {
+        path:'/main',
+        component:Index,
+        children:[
+            {
+                path:'/user',
+                component:UserManage,
+            },
+            {
+                path:'/goods',
+                component:GoodsManage,
+            },
+            {
+                path:'/userInfo',
+                component:UserInfo
+            },
+            {
+                path:'/comment',
+                component:Comment
             }
         ]
     }

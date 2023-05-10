@@ -17,7 +17,16 @@
             <h3>{{ film.filmName }}</h3>
           </div>
           <div style="margin-top: -15px">
-            <span>{{ film.showTime }}/美国</span>
+            <span>{{ film.showTime }}/{{film.countryString.countryName}}</span>
+          </div>
+          <div v-for="actor in film.actorList">
+            <span v-if="actor.duties==1">导演:{{actor.actorName}}</span>
+          </div>
+          <div v-for="actor in film.actorList">
+            <span v-if="actor.duties==2">主演:{{actor.actorName}}</span>
+          </div>
+          <div v-for="actor in film.actorList">
+            <span v-if="actor.duties==3">演员:{{actor.actorName}}</span>
           </div>
           <div>
           <span>
@@ -104,7 +113,7 @@ export default {
       this.getPageInfo()
     },
     viewFilmInfo(id){
-      this.$router.push({path:"/index/filmInfo", query:{id}})
+      this.$router.push({path:"/filmInfo", query:{id}})
     }
   },
   created() {

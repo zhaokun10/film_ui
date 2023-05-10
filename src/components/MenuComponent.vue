@@ -1,11 +1,11 @@
 <template>
   <el-menu router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
            text-color="#FFFFFF" active-text-color="#FFFFFF">
-    <el-menu-item index="/index">主页</el-menu-item>
-    <el-menu-item index="/index/hot">热门</el-menu-item>
-    <el-menu-item index="/index/recommended">推荐</el-menu-item>
-    <el-menu-item index="/index/all">全部电影</el-menu-item>
-    <el-menu-item index="/index/allComments">全部影评</el-menu-item>
+    <el-menu-item index="/">主页</el-menu-item>
+    <el-menu-item index="/hot">热门</el-menu-item>
+    <el-menu-item index="/recommended">推荐</el-menu-item>
+    <el-menu-item index="/all">全部电影</el-menu-item>
+    <el-menu-item index="/allComments">全部影评</el-menu-item>
     <el-input
         placeholder="请输入电影名称"
         suffix-icon="el-icon-search"
@@ -21,7 +21,7 @@
   </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item ><router-link to="/index/myProfile"><p style="color: #159eff">个人中心</p></router-link></el-dropdown-item>
-          <el-dropdown-item><router-link to="/"><p style="color: #159eff">退出</p></router-link></el-dropdown-item>
+          <el-dropdown-item @click.native="logout"><p style="color: #159eff">退出</p></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -50,13 +50,18 @@ export default {
   methods: {
     search() {
       this.$router.push({
-        path: "/index/searchResult", query: {
+        path: "/searchResult", query: {
           searchInfo: this.$data.searchInfo
         }
       })
       this.$data.searchInfo=''
+    },
+    logout(){
+      localStorage.clear()
+      this.$router.push("/login")
     }
   },
+
 }
 </script>
 

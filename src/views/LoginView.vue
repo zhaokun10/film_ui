@@ -37,6 +37,16 @@ export default {
   methods:{
     onSubmit() {
       this.$axios.post("/login",this.$data.form).then(ref=>{
+        this.$axios.post("/role/find/"+ref.data.userId).then(ref=>{
+          window.localStorage.setItem("roleId", ref.data)
+          if(ref.data==2){
+            this.$router.push({path:'/',query:{
+                username
+              }})
+          }else {
+            this.$router.push("/main")
+          }
+        })
         this.$notify({
           type:'success',
           message: '登录成功'

@@ -12,6 +12,20 @@
       <div class="title">
         <h1>{{ film.filmName }}</h1>
       </div>
+ <div style="margin-left: 30px">
+   <div style="margin-top: -15px">
+     <span>{{ film.showTime }}/{{film.countryString.countryName}}</span>
+   </div>
+   <div v-for="actor in film.actorList">
+     <span v-if="actor.duties==1">导演:{{actor.actorName}}</span>
+   </div>
+   <div v-for="actor in film.actorList">
+     <span v-if="actor.duties==2">主演:{{actor.actorName}}</span>
+   </div>
+   <div v-for="actor in film.actorList">
+     <span v-if="actor.duties==3">演员:{{actor.actorName}}</span>
+   </div>
+ </div>
       <div style="margin-left: 30px">
         <h3>简介:</h3>
         <p>
@@ -113,8 +127,9 @@ export default {
   },
   methods:{
     getFilmInfo(){
-      this.$axios.get("/filmInfo?filmId="+this.$route.query.id).then(ref=> {
+      this.$axios.get("/filmInformation?filmId="+this.$route.query.id).then(ref=> {
             this.$data.film = ref.data
+        console.log(ref.data)
           }
       )
       this.$axios.get("/comment/filmComment?filmId="+this.$route.query.id).then(ref=> {

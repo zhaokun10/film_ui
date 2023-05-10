@@ -106,7 +106,7 @@ export default {
   },
   methods:{
     viewFilmInfo(id){
-      this.$router.push({path:"/index/filmInfo", query:{id}})
+      this.$router.push({path:"/filmInfo", query:{id}})
     }
   },
   created() {
