@@ -34,7 +34,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
-                @click="removeUserById(scope.row.userId)"
+                @click="removeUserById(scope.row.id)"
             ></el-button>
           </template>
         </el-table-column>
