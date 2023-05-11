@@ -9,18 +9,31 @@
         text-color="#fff"
         router
     >
-      <el-menu-item index="user" v-if="roleId==1">
+      <el-menu-item index="user">
         <el-icon><UserFilled /></el-icon>
         <span>用户管理</span>
       </el-menu-item>
       <el-menu-item index="goods">
         <el-icon><Management /></el-icon>
-        <span>影片管理</span>
+        <span>电影管理</span>
       </el-menu-item>
       <el-menu-item index="comment">
         <el-icon><Management /></el-icon>
         <span>评论管理</span>
       </el-menu-item>
+      <el-menu-item index="actor">
+        <el-icon><Management /></el-icon>
+        <span>演员管理</span>
+      </el-menu-item>
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>其他管理</span>
+        </template>
+          <el-menu-item index="filmType">影片类型</el-menu-item>
+          <el-menu-item index="duties">职业</el-menu-item>
+          <el-menu-item index="country">制片地区</el-menu-item>
+      </el-submenu>
     </el-menu>
   </div>
 

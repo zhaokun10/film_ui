@@ -16,6 +16,10 @@ import UserManage from "@/views/UserManage.vue";
 import GoodsManage from "@/views/GoodsManage.vue";
 import UserInfo from "@/views/UserInfo.vue";
 import Comment from "@/views/Comment.vue";
+import ActorView from "@/views/ActorView.vue";
+import FilmTypeView from "@/views/FilmTypeView.vue";
+import DutiesView from "@/views/DutiesView.vue";
+import CountryView from "@/views/CountryView.vue";
 
 Vue.use(VueRouter)
 
@@ -94,6 +98,22 @@ const routes = [
             {
                 path:'/comment',
                 component:Comment
+            },
+            {
+                path:'/actor',
+                component:ActorView
+            },
+            {
+                path:'/filmType',
+                component:FilmTypeView
+            },
+            {
+                path:'/duties',
+                component:DutiesView
+            },
+            {
+                path:'/country',
+                component:CountryView
             }
         ]
     }

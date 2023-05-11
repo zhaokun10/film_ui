@@ -55,9 +55,9 @@ export default {
         if(ref.data===1){
           this.$notify({
             type:'success',
-            message: '登录成功'
+            message: '注册成功'
           });
-          this.$router.push("/")
+          this.$router.push("/login")
         }else {
           this.$notify({
             type:'error',

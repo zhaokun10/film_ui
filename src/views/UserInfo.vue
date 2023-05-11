@@ -1,117 +1,166 @@
-<!--<template xmlns="http://www.w3.org/1999/html">-->
-<!--  <div class="user-table">-->
-<!--    <el-card class="box-card">-->
-<!--      <el-form :model="form" label-width="120px">-->
-<!--        <el-input-->
-<!--            size="large"-->
-<!--            ref="password"-->
-<!--            v-model="registerForm.password"-->
-<!--            :type="passwordType"-->
-<!--            placeholder="密码"-->
-<!--            name="password"-->
-<!--            maxlength="50"-->
-<!--            style="margin-top: 5%"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <el-icon>-->
-<!--              <Lock/>-->
-<!--            </el-icon>-->
-<!--          </template>-->
-<!--          <template #append>-->
-<!--            <el-icon>-->
-<!--              <View/>-->
-<!--            </el-icon>-->
-<!--          </template>-->
-<!--        </el-input>-->
-<!--        <el-input-->
-<!--            size="large"-->
-<!--            ref="password"-->
-<!--            v-model="registerForm.rePassword"-->
-<!--            :type="passwordType"-->
-<!--            placeholder="确认密码"-->
-<!--            name="password"-->
-<!--            maxlength="50"-->
-<!--            style="margin-top: 5%"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <el-icon>-->
-<!--              <Lock/>-->
-<!--            </el-icon>-->
-<!--          </template>-->
-<!--          <template #append>-->
-<!--            <el-icon>-->
-<!--              <View/>-->
-<!--            </el-icon>-->
-<!--          </template>-->
-<!--        </el-input>-->
-<!--        <el-button type="primary" @click="modifyPassword" style="width: 100%; margin-top: 10px" size="medium">提交</el-button>-->
-<!--      </el-form>-->
-<!--    </el-card>-->
-<!--  </div>-->
-<!--</template>-->
+<template>
+  <div>
+    <el-row :gutter="20" style="margin-top:10px; margin-left: 200px">
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>个人中心</span>
+            </div>
+            <div class="name-role">
+              <span class="sender"> {{dataForm.username}}</span>
+            </div>
+            <div class="registe-info">
+          <span class="registe-info">
+            注册时间：
+            <li class="fa fa-clock-o"></li>
+             2020/4/10 9:40:33
+          </span>
+            </div>
+            <el-divider></el-divider>
+            <div class="personal-relation">
+              <div class="relation-item">邮箱:  <div style="float: right; padding-right:20px;">{{dataForm.email}}</div></div>
+            </div>
+          </el-card>
+        </div>
+      </el-col>
+      <el-col :span="16">
+        <div class="grid-content bg-purple">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>基本资料</span>
+            </div>
+            <div>
+              <el-form label-width="80px" v-model="dataFrom" size="small" label-position="right">
+                <el-form-item label="用户昵称" prop="nickName">
+                  <el-input  auto-complete="off" v-model="dataForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱" prop="phone">
+                  <el-input auto-complete="off" v-model="dataForm.email"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button style="width: 100%" type="primary" @click="updateUserInfo">提交</el-button>
+              </div>
+            </div>
+          </el-card>
+        </div>
+      </el-col>
 
-<!--<script>-->
-<!--import axios from "../axios.js";-->
-<!--import {ElMessage} from "element-plus";-->
+    </el-row>
+  </div>
+</template>
+<script>
+export default {
+  name:'MyProfileView',
+  data(){
+    return{
+      dataForm:{
+      }
+    }
+  },
+  methods:{
+    updateUserInfo(){
+      const user = this.$data.dataForm
+      this.$axios.post("/update",user).then(ref=>{
+            if(ref.data===1){
+              this.getUserInfo();
+              this.$notify({
+                type:"success",
+                message:"更新成功"
+              })
+            }
+          }
+      )
+    },
+    getUserInfo(){
+      this.$axios.get("/findUser?userId="+window.localStorage.getItem("userId")).then(ref=>{
+        this.$data.dataForm=ref.data
+      })
+    }
+  },
+  created() {
 
-<!--export default {-->
+    this.getUserInfo()
+  }
+}
+</script>
 
-<!--  name: "UserInfo",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      registerForm: {-->
-<!--        id:localStorage.getItem("userId"),-->
-<!--        username:localStorage.getItem("username"),-->
-<!--        password: '',-->
-<!--        rePassword: ''-->
-<!--      },-->
-<!--    }-->
-<!--  },-->
-<!--  methods:{-->
-<!--    modifyPassword(){-->
-<!--      if(this.$data.registerForm.password!==this.$data.registerForm.rePassword){-->
-<!--        ElMessage({-->
-<!--          message: '密码不一致',-->
-<!--          type: 'warning',-->
-<!--        })-->
-<!--      }-->
-<!--      else {-->
-<!--        this.$axios.post("http://localhost:7999/user/update", this.$data.registerForm).then(ref=>{-->
-<!--          if(ref){-->
-<!--            axios.get('http://localhost:7999/user/find/role/'+ref.data.id).then(res=>{-->
-<!--              localStorage.setItem("roleId", res.data)-->
-<!--            })-->
-<!--            localStorage.setItem('userId', ref.data.id)-->
-<!--            localStorage.setItem('username', ref.data.username)-->
-<!--            ElMessage({-->
-<!--              message: '登录成功',-->
-<!--              type: 'success',-->
-<!--            })-->
-<!--            this.$router.push("/")-->
-<!--          }else {-->
-<!--            ElMessage({-->
-<!--              message: '登录失败',-->
-<!--              type: 'error',-->
-<!--            })-->
-<!--          }-->
-<!--        })-->
+<style lang="scss" scoped>
+//卡片样式
+.text {
+  font-size: 14px;
+}
 
-<!--      }-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+.item {
+  margin-bottom: 18px;
+}
 
-<!--<style scoped>-->
-<!--.user-table {-->
-<!--  margin-left: 200px;-->
-<!--}-->
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
 
-<!--.box-card {-->
-<!--  width: 500px;-->
-<!--  height: 200px;-->
-<!--  margin: auto;-->
-<!--  margin-top:12%-->
-<!--}-->
+.box-card {
+  width: 100%;
+}
+//文本样式区
+.name-role {
+  font-size: 16px;
+  padding: 5px;
+  text-align:center;
+}
+.sender{
+  text-align:center;
+}
+.registe-info{
+  text-align: center;
+  padding-top:10px;
+}
+.personal-relation {
+  font-size: 16px;
+  padding: 0px 5px 15px;
+  margin-right: 1px;
+  width: 100%
+}
 
-<!--</style>-->
+.relation-item {
+  padding: 12px;
+
+}
+.dialog-footer{
+  padding-top:10px ;
+  padding-left: 10%;
+}
+//布局样式区
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.el-col {
+  border-radius: 4px;
+}
+.bg-purple-dark {
+  background: #99a9bf;
+}
+.bg-purple {
+  background: #d3dce6;
+}
+.bg-purple-light {
+  background: #e5e9f2;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
+</style>

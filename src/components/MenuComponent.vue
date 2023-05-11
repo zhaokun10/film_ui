@@ -20,7 +20,7 @@
   {{name}}
   </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item ><router-link to="/index/myProfile"><p style="color: #159eff">个人中心</p></router-link></el-dropdown-item>
+          <el-dropdown-item ><router-link to="/myProfile"><p style="color: #159eff">个人中心</p></router-link></el-dropdown-item>
           <el-dropdown-item @click.native="logout"><p style="color: #159eff">退出</p></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

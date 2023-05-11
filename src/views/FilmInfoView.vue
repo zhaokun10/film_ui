@@ -13,18 +13,50 @@
         <h1>{{ film.filmName }}</h1>
       </div>
  <div style="margin-left: 30px">
+
    <div style="margin-top: -15px">
      <span>{{ film.showTime }}/{{film.countryString.countryName}}</span>
    </div>
-   <div v-for="actor in film.actorList">
-     <span v-if="actor.duties==1">导演:{{actor.actorName}}</span>
+   <div>
+     <el-row>
+       <el-col :span="2">
+         <div>导演:</div>
+       </el-col>
+       <el-col :span="22">
+         <div v-for="actor in film.actorList">
+           <span v-if="actor.dutiesList[0].id==1">{{actor.actorName}}</span>
+         </div>
+       </el-col>
+     </el-row>
+
    </div>
-   <div v-for="actor in film.actorList">
-     <span v-if="actor.duties==2">主演:{{actor.actorName}}</span>
+   <div>
+     <el-row>
+       <el-col :span="2">
+         <div>编剧:</div>
+       </el-col>
+       <el-col :span="22">
+         <div v-for="actor in film.actorList">
+           <span v-if="actor.dutiesList[0].id==3">{{actor.actorName}}</span>
+         </div>
+       </el-col>
+     </el-row>
+
    </div>
-   <div v-for="actor in film.actorList">
-     <span v-if="actor.duties==3">演员:{{actor.actorName}}</span>
+   <div>
+     <el-row>
+       <el-col :span="2">
+<div>主演:</div>
+       </el-col>
+       <el-col :span="22">
+         <div v-for="actor in film.actorList">
+           <span v-if="actor.dutiesList[0].id==2">{{actor.actorName}}</span>
+         </div>
+       </el-col>
+     </el-row>
+
    </div>
+
  </div>
       <div style="margin-left: 30px">
         <h3>简介:</h3>

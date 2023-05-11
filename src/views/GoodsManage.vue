@@ -20,7 +20,8 @@
         </el-col>
         <el-col :span="4">
           <el-button type="primary" @click="addDialogVisible = true"
-          >添加电影</el-button
+          >添加电影
+          </el-button
           >
         </el-col>
       </el-row>
@@ -30,13 +31,47 @@
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="电影名称" prop="filmName"></el-table-column>
         <el-table-column label="上映时间" prop="showTime" width="80"></el-table-column>
+        <el-table-column label="导演"  width="80">
+          <template slot-scope="scope">
+            <div v-for="actor in scope.row.actorList">
+              <div v-if="actor.dutiesList[0].id ==1">
+                  {{actor.actorName}}
+              </div>
+            </div>
+          </template>
+
+        </el-table-column>
+        <el-table-column label="编剧"  width="80">
+          <template slot-scope="scope">
+            <div v-for="actor in scope.row.actorList">
+              <div v-if="actor.dutiesList[0].id ==3">
+                {{actor.actorName}}
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="主演"  width="80">
+          <template slot-scope="scope">
+            <div v-for="actor in scope.row.actorList">
+              <div v-if="actor.dutiesList[0].id ==2">
+                {{actor.actorName}}
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="类型"  width="80">
+          <template slot-scope="scope">
+            <div >
+                {{scope.row.types.typeName}}
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="简介" prop="profile" width="300"></el-table-column>
         <el-table-column label="图片" prop="filmUrl">
           <template slot-scope="scope">
             <el-image style="width: 200px; height: 100px" :src="scope.row.filmUrl"></el-image>
           </template>
         </el-table-column>
-        <el-table-column label="类型" prop="type"></el-table-column>
         <el-table-column label="是否为热门">
           <template slot-scope="scope">
             <el-switch
@@ -105,7 +140,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否为热门" prop="country">
+        <el-form-item label="是否为热门">
           <el-select v-model="addForm.isHot">
             <el-option
                 v-for="item in hotList"
@@ -115,9 +150,47 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-input v-model="addForm.type"></el-input>
+        <el-form-item label="导演">
+          <el-select v-model="filmMaker.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
+        <el-form-item label="编剧">
+          <el-select v-model="screenWriter.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="主演">
+          <el-select v-model="major.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select v-model="addForm.type">
+            <el-option
+                v-for="item in typeList"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="电影介绍" prop="profile">
           <el-input v-model="addForm.profile"></el-input>
         </el-form-item>
@@ -148,8 +221,8 @@
         @close="editDialogClosed"
     >
       <el-form
-          :model="editForm"
-          ref="editFormRef"
+          :model="addForm"
+          ref="addFormRef"
           label-width="70px"
       >
         <el-form-item label="电影名称" prop="filmName">
@@ -168,7 +241,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否为热门" prop="country">
+        <el-form-item label="是否为热门">
           <el-select v-model="editForm.isHot">
             <el-option
                 v-for="item in hotList"
@@ -178,18 +251,60 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-input v-model="editForm.type"></el-input>
+        <el-form-item label="导演">
+          <el-select multiple
+                     filterable v-model="filmMaker.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
+        <el-form-item label="编剧">
+          <el-select multiple
+                     filterable v-model="screenWriter.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="主演">
+          <el-select multiple
+                     filterable v-model="major.id">
+            <el-option
+                v-for="item in actorList"
+                :key="item.id"
+                :label="item.actorName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select v-model="editForm.type">
+            <el-option
+                v-for="item in typeList"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="电影介绍" prop="profile">
           <el-input v-model="editForm.profile"></el-input>
         </el-form-item>
         <el-upload
             class="upload-demo"
             ref="upload"
+            action="https://jsonplaceholder.typicode.com/posts/"
             :file-list="fileList"
-            :on-preview="edithandlePreview"
-            :on-change="editHandleChange"
+            :on-preview="handlePreview"
+            :on-change="handleChange"
             :auto-upload="false"
             :http-request="httpRequest"
         >
@@ -216,22 +331,22 @@ export default {
       },
       filmList: [],
       newFilmList: [],
-      countryList:[],
-      fileList:[],
-      hotList:[
+      countryList: [],
+      fileList: [],
+      hotList: [
         {
-          id:1,
-          hotName:'是'
+          id: 1,
+          hotName: '是'
         },
-      {
-        id:2,
-            hotName:'否'
-      }
+        {
+          id: 2,
+          hotName: '否'
+        }
       ],
-      total:0,
-      currentPage:1,  //当前所在页默认是第一页
-      pageSize:2,  //每页显示多少行数据 默认设置为10
-      pageTicket:[],//分页后的当前页数据
+      total: 0,
+      currentPage: 1,  //当前所在页默认是第一页
+      pageSize: 2,  //每页显示多少行数据 默认设置为10
+      pageTicket: [],//分页后的当前页数据
       // 控制添加用户对话框显示与隐藏
       addDialogVisible: false,
       // 添加用户的表单数据
@@ -240,9 +355,22 @@ export default {
         showTime: '',
         profile: '',
         type: '',
-        country:'',
-        filmUrl:'',
-        isHot:''
+        country: '',
+        filmUrl: '',
+        isHot: '',
+        actorList: []
+      },
+      filmMaker: {
+        id: '',
+        dutiesId: 1
+      },
+      screenWriter: {
+        id: '',
+        dutiesId: 3
+      },
+      major: {
+        id: '',
+        dutiesId: 2
       },
       // 修改用户对话框
       editDialogVisible: false,
@@ -251,37 +379,52 @@ export default {
         showTime: '',
         profile: '',
         type: '',
-        country:'',
-        filmUrl:'',
-        isHot:''
+        country: '',
+        filmUrl: '',
+        isHot: '',
+        actorList: []
       },
+      typeList: '',
+      actorList: ''
     }
   },
   created() {
     this.getFilmList()
     this.getCountryList()
+    this.getActorList()
+    this.getTypeList()
   },
   methods: {
     async getFilmList() {
-      this.$axios.get("/all").then(ref=>{
+      this.$axios.get("/all").then(ref => {
         this.filmList = ref.data
         console.log(ref.data)
         this.newFilmList = ref.data
-        this.total=ref.data.length
+        this.total = ref.data.length
         this.getPageInfo();
       })
     },
-    handlePreview(file){
+    getActorList() {
+      this.$axios.get("/actor/all").then(ref => {
+        this.actorList = ref.data
+      })
+    },
+    getTypeList() {
+      this.$axios.get("/type/all").then(ref => {
+        this.typeList = ref.data
+      })
+    },
+    handlePreview(file) {
       console.log(file)
     },
-    edithandlePreview(file){
+    edithandlePreview(file) {
       console.log(file)
     },
-    handleChange(file, fileList){
-      this.addForm.filmUrl="http://localhost:9000/image/"+fileList[0].name
+    handleChange(file, fileList) {
+      this.addForm.filmUrl = "http://localhost:9000/image/" + fileList[0].name
     },
-    editHandleChange(file, fileList){
-      this.editForm.filmUrl="http://localhost:9000/image/"+fileList[0].name
+    editHandleChange(file, fileList) {
+      this.editForm.filmUrl = "http://localhost:9000/image/" + fileList[0].name
     },
     httpRequest(param) {
       console.log(param)
@@ -300,19 +443,19 @@ export default {
       })
     },
     async getCountryList() {
-      this.$axios.get("/film/country").then(ref=>{
+      this.$axios.get("/film/country").then(ref => {
         this.countryList = ref.data
       })
     },
-    getPageInfo(){
-      this.pageTicket=[]
+    getPageInfo() {
+      this.pageTicket = []
       // 获取当前页的数据
-      for(let i=(this.currentPage-1)*this.pageSize;i<this.total;i++){
+      for (let i = (this.currentPage - 1) * this.pageSize; i < this.total; i++) {
         //把遍历的数据添加到pageTicket里面
         this.pageTicket.push(this.newFilmList[i]);
 
         //判断是否达到一页的要求
-        if(this.pageTicket.length===this.pageSize) break;
+        if (this.pageTicket.length === this.pageSize) break;
       }
     },
     handlesearch: function () {
@@ -324,22 +467,22 @@ export default {
       })
     },
     //调整当前的页码
-    handleCurrentChange(pageNumber){
+    handleCurrentChange(pageNumber) {
       //修改当前的页码
-      this.currentPage=pageNumber;
+      this.currentPage = pageNumber;
       //数据重新分页
       this.getPageInfo()
     },
     // 修改用户状态
     async userStateChanged(filmInfo) {
-      if(filmInfo.isHot==0){
-        filmInfo.isHot=1
-      }else {
-        filmInfo.isHot=0
+      if (filmInfo.isHot == 0) {
+        filmInfo.isHot = 1
+      } else {
+        filmInfo.isHot = 0
       }
-      filmInfo.country= filmInfo.countryString.id
+      filmInfo.country = filmInfo.countryString.id
       console.log(filmInfo.country)
-      this.$axios.post("/film/update",filmInfo).then(ref=>{
+      this.$axios.post("/film/update", filmInfo).then(ref => {
         this.$message.success('更改成功')
       })
 
@@ -354,8 +497,11 @@ export default {
       console.log(this.addForm)
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
+        this.addForm.actorList.push(this.filmMaker)
+        this.addForm.actorList.push(this.screenWriter)
+        this.addForm.actorList.push(this.major)
         // 可以发起添加用户的网络请求
-        this.$axios.post("/insert", this.addForm).then(ref=>{
+        this.$axios.post("/insert", this.addForm).then(ref => {
           // if (ref.status !== 201) return this.$message.error('添加失败')
           // 添加成功
           this.$message.success('添加成功')
@@ -369,9 +515,21 @@ export default {
     },
     // 修改用户
     async showEditDialog(id) {
-      this.$axios.get("/filmInfo?filmId="+id).then(ref=>{
+      this.$axios.get("/filmInfo?filmId=" + id).then(ref => {
         this.editForm = ref.data
+        this.editForm.actorList.forEach(actor => {
+          if (actor.dutiesList[0].id == 1) {
+            this.filmMaker = actor
+          }
+          if (actor.dutiesList[0].id == 2) {
+            this.major = actor
+          }
+          if (actor.dutiesList[0].id == 3) {
+            this.screenWriter = actor
+          }
+        })
       })
+
       this.editDialogVisible = true
     },
     // 监听修改用户对话框的关闭事件
@@ -383,7 +541,7 @@ export default {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return
         // 发起修改用户信息的数据请求
-        this.$axios.post("/film/update",this.editForm).then(ref=>{
+        this.$axios.post("/film/update", this.editForm).then(ref => {
           if (ref.status !== 200) {
             return this.$message.error(this.meta.msg)
           }
@@ -415,7 +573,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // 发送删除请求
-      this.$axios.post("/film/delete", id).then(ref=>{
+      this.$axios.post("/film/delete", id).then(ref => {
         this.$message.success('删除成功')
         this.getFilmList()
       })
